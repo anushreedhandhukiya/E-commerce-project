@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        #box div button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: rgb(66, 66, 252);
+            color: white;
+            border: 1px solid black;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("navbar") %>
+        <div class="container">
+            <div id="box"></div>
+        </div>
+</body>
+<script>
+    const display = (data) => {
+        document.getElementById("box").innerHTML = "";
+        data.map((element) => {
+            let ele = element.productId
+            let image = document.createElement("img");
+            image.src = ele.image;
+            let title = document.createElement("h1");
+            title.innerHTML = `Title : ${ele.title}`;
+            let category = document.createElement("h3");
+            category.innerHTML = `Category : ${ele.category}`;
+            let desc = document.createElement("h4")
+            desc.innerHTML = `Description : ${ele.desc}`
+            let price = document.createElement("h2");
+            price.innerHTML = `Product Price : ${ele.price}`;
+
+            let btn1 = document.createElement("button")
+            btn1.innerHTML = "Update"
+
+            let btn2 = document.createElement("button")
+            btn2.innerHTML = "Delete"
+
+            let div = document.createElement("div");
+            div.append(image, title, category, desc, price, btn1, btn2);
+            document.getElementById("box").append(div);
+        });
+    };
+
+    fetch("/product/cartdata")
+        .then((response) => response.json())
+        .then((response) => display(response))
+        .catch((error) => console.log(error));
+</script>
+
+</html>

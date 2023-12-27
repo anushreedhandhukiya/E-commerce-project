@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        #box div button {
+            width: 100px;
+            margin: 20px 100px;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: rgb(66, 66, 252);
+            color: white;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("navbar") %>
+        <div class="container">
+            <div id="box"></div>
+        </div>
+</body>
+<script>
+    const handlecart = (id) => {
+        console.log(id);
+        fetch("/product/addproduct", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId: id }),
+        })
+    }
+
+    const display = (data) => {
+        document.getElementById("box").innerHTML = "";
+        data.map((ele) => {
+            let image = document.createElement("img");
+            image.src = ele.image;
+            let title = document.createElement("h1");
+            title.innerHTML = `Tilte : ${ele.title}`;
+            let category = document.createElement("h3");
+            category.innerHTML = `Category : ${ele.category}`;
+            let desc = document.createElement("h4")
+            desc.innerHTML = `Description : ${ele.desc}`
+            let price = document.createElement("h2");
+            price.innerHTML = `Product Price : ${ele.price}`;
+
+            let btn = document.createElement("button")
+            btn.innerHTML = "BUY"
+
+            btn.addEventListener("click", () => {
+                handlecart(ele._id);
+            })
+
+            let div = document.createElement("div");
+            div.append(image, title, category, desc, price, btn);
+            document.getElementById("box").append(div);
+        });
+    };
+
+    fetch("/product")
+        .then((response) => response.json())
+        .then((response) => display(response))
+        .catch((error) => console.log(error));
+</script>
+
+</html>
