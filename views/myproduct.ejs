@@ -25,33 +25,45 @@
         </div>
 </body>
 <script>
+    const deleteproduct = (id) => {
+        fetch(`/product/delete/${id}`, {
+            method: "DELETE"
+        })
+    }
+    const updateproduct = (id) => {
+        fetch(`/product/productupdate/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateproduct)
+        })
+    }
     const display = (data) => {
         document.getElementById("box").innerHTML = "";
-        data.map((element) => {
-            let ele = element.productId
-            let image = document.createElement("img");
-            image.src = ele.image;
-            let title = document.createElement("h1");
-            title.innerHTML = `Title : ${ele.title}`;
-            let category = document.createElement("h3");
-            category.innerHTML = `Category : ${ele.category}`;
-            let desc = document.createElement("h4")
-            desc.innerHTML = `Description : ${ele.desc}`
-            let price = document.createElement("h2");
-            price.innerHTML = `Product Price : ${ele.price}`;
+        data.map((ele) => {
+            image = document.createElement("img");
+            image.innerHTML = ele.image;
+            title = document.createElement("h2");
+            title.innerHTML = ele.title;
+            desc = document.createElement("h3");
+            desc.innerHTML = ele.desc;
+            price = document.createElement("h3");
+            price.innerHTML = ele.price;
 
-            let btn1 = document.createElement("button")
-            btn1.innerHTML = "Update"
+            btn1 = document.createElement("button");
+            btn1.innerHTML = "Update";
+            btn1.addEventListener("click", () => updateproduct(ele._id));
 
-            let btn2 = document.createElement("button")
-            btn2.innerHTML = "Delete"
+            btn2 = document.createElement("button");
+            btn2.innerHTML = "Delete";
+            btn2.addEventListener("click", () => deleteproduct(ele._id));
 
-            let div = document.createElement("div");
-            div.append(image, title, category, desc, price, btn1, btn2);
+
+            div = document.createElement("div");
+            div.append(image, title, desc, price ,btn1, btn2);
+
             document.getElementById("box").append(div);
-        });
-    };
-
+        })
+    }
     fetch("/product/cartdata")
         .then((response) => response.json())
         .then((response) => display(response))
