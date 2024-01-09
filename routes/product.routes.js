@@ -13,6 +13,6 @@ productRoute.post("/addproduct",verifyToken,cart)
 productRoute.get("/cartdata",verifyToken,cartdata)
 productRoute.delete("/delete/:id",deleteproduct)
 productRoute.patch("/update",updateproduct)
-productRoute.get("/productupdate/:id",updatedata);
+productRoute.get("/update/:id",updatedata);
 
 module.exports = productRoute

@@ -5,5 +5,5 @@ const cateSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 })
 
-const myproducts = mongoose.model("categories",cateSchema)
+const myproducts = mongoose.model("myproduct",cateSchema)
 module.exports = myproducts
