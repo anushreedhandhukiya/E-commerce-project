@@ -50,20 +50,20 @@ const cartdata = async (req, res) => {
 
 const deleteproduct = async(req,res)=>{
     const {id} = req.params
-    let data = await product.findByIdAndDelete(id)
+    let data = await myproducts.findByIdAndDelete(id)
     res.send(data)
 }
 
 const updateproduct = async(req,res)=>{
     const {id} = req.params
-    let data = await product.findByIdAndUpdate(id,req.body)
+    let data = await myproducts.findByIdAndUpdate(id,req.body)
     res.send(data)
 }
 
 const updatedata = async (req, res) => {
     try {
         let {id} = req.params;
-        let data = await product.findById(id)
+        let data = await myproducts.findById(id)
         res.render('productform',{data, edit:true});
     } catch (error) {
         return res.send({Error : error.message});

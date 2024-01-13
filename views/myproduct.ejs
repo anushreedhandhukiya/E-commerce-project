@@ -29,17 +29,21 @@
         fetch(`/product/delete/${id}`, {
             method: "DELETE"
         })
+            .then((response) => response.json())
+            .then((response) => get())
+            .catch((error) => console.log(error))
     }
     const updateproduct = (id) => {
         fetch(`/product/update/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updateproduct)
+            body: JSON.stringify({ updateproduct })
         })
     }
     const display = (data) => {
         document.getElementById("box").innerHTML = "";
-        data.map((ele) => {
+        data.map((element) => {
+            let ele = element.productId
             let image = document.createElement("img");
             image.src = ele.image;
             let title = document.createElement("h2");
@@ -51,21 +55,24 @@
 
             let btn1 = document.createElement("button");
             btn1.innerHTML = "Update";
-            btn1.addEventListener("click", () => updateproduct(ele._id));
+            btn1.addEventListener("click", () => updateproduct(element._id));
 
             let btn2 = document.createElement("button");
             btn2.innerHTML = "Delete";
-            btn2.addEventListener("click", () => deleteproduct(ele._id));
+            btn2.addEventListener("click", () => deleteproduct(element._id));
 
             div = document.createElement("div");
-            div.append(image, title, desc, price ,btn1, btn2);
+            div.append(image, title, desc, price, btn2);
             document.getElementById("box").append(div);
         })
     }
-    fetch("/product/cartdata")
-        .then((response) => response.json())
-        .then((response) => display(response))
-        .catch((error) => console.log(error));
+    function get() {
+        fetch("/product/cartdata")
+            .then((response) => response.json())
+            .then((response) => display(response))
+            .catch((error) => console.log(error));
+    }
+    get()
 </script>
 
 </html>
